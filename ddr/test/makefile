@@ -34,6 +34,8 @@ OBJECTS += $(patsubst %.c,%$(OBJEXT),$(wildcard map_to_type/*.c))
 
 ifeq (gcc,$(OMR_TOOLCHAIN))
   MODULE_CXXFLAGS += -g3 -Wno-error -frtti -std=c++0x
+else ifeq (clang-cl,$(OMR_TOOLCHAIN))
+  MODULE_CXXFLAGS += /Z7 /EHsc
 else ifeq (msvc,$(OMR_TOOLCHAIN))
   MODULE_CXXFLAGS += /Zi /EHsc
 else

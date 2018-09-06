@@ -71,7 +71,7 @@ buildCPPIncludeFlags = $(foreach path,$(1),-I$(path))
 buildASIncludeFlags = $(foreach path,$(1),-I$(path))
 buildLibPathFlags = $(foreach path,$(1),-L$(path))
 
-ifeq (msvc,$(OMR_TOOLCHAIN))
+ifneq (, $(filter msvc clang-cl,$(OMR_TOOLCHAIN)))
   buildCPPIncludeFlags = $(foreach path,$(1),-I$(path))
   buildASIncludeFlags = $(foreach path,$(1),/I$(path))
   buildLibPathFlags = $(foreach path,$(1),/LIBPATH:$(path))
@@ -94,7 +94,7 @@ buildLinkGroup = $(if $(1),$(LINK_GROUP_START) $(1) $(LINK_GROUP_END),)
 ifeq (aix,$(OMR_HOST_OS))
   buildLinkGroup = $(1)
 endif
-ifeq (msvc,$(OMR_TOOLCHAIN))
+ifneq (, $(filter msvc clang-cl,$(OMR_TOOLCHAIN)))
   # .lib is the Windows import library
   buildSharedLibLinkFlags = $(foreach lib,$(1),$(LIBPREFIX)$(lib).lib)
   buildStaticLibLinkFlags = $(foreach lib,$(1),$(lib)$(ARLIBEXT))
@@ -110,7 +110,7 @@ ifeq (zos,$(OMR_HOST_OS))
 endif
 
 # Build filenames for artifacts
-ifeq (msvc,$(OMR_TOOLCHAIN))
+ifneq (, $(filter msvc clang-cl,$(OMR_TOOLCHAIN)))
   buildStaticLibFilename = $(foreach lib,$(1),$(lib_output_dir)/$(lib).lib)
   buildExeFilename = $(foreach exe,$(1),$(exe_output_dir)/$(exe).exe)
 else

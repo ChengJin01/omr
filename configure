@@ -4368,6 +4368,8 @@ case $OMR_TOOLCHAIN in #(
      ;; #(
   msvc) :
      ;; #(
+  clang-cl) :
+     ;; #(
   *) :
     as_fn_error $? "An invalid value was provided for OMR_TOOLCHAIN: $OMR_TOOLCHAIN" "$LINENO" 5
  ;;
@@ -7158,9 +7160,10 @@ if test "$enable_DDR" = yes -a "$cross_compiling" != "yes"; then :
 
 fi
 			# next, look relative to the location of the Visual Studio compiler
-			if test "x$DIASDK_HOME" = "x" -a "$OMR_TOOLCHAIN" = msvc; then :
+			if test "x$DIASDK_HOME" = "x"; then :
+  if test "$OMR_TOOLCHAIN" = msvc -o "$OMR_TOOLCHAIN" = clang-cl; then :
 
-				# Extract the first word of "cl.exe", so it can be a program name with args.
+							# Extract the first word of "cl.exe", so it can be a program name with args.
 set dummy cl.exe; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
@@ -7200,10 +7203,10 @@ $as_echo "no" >&6; }
 fi
 
 
-				if test "x$VS_CL_PATH" != x; then :
+							if test "x$VS_CL_PATH" != x; then :
 
-					# this should yield .../VC/bin/cl.exe or .../VC/bin/amd64/cl.exe
-					vc_bin_dir=$($as_dirname -- "$VS_CL_PATH" ||
+									# this should yield .../VC/bin/cl.exe or .../VC/bin/amd64/cl.exe
+									vc_bin_dir=$($as_dirname -- "$VS_CL_PATH" ||
 $as_expr X"$VS_CL_PATH" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
 	 X"$VS_CL_PATH" : 'X\(//\)[^/]' \| \
 	 X"$VS_CL_PATH" : 'X\(//\)$' \| \
@@ -7226,15 +7229,18 @@ $as_echo X"$VS_CL_PATH" |
 	    q
 	  }
 	  s/.*/./; q')
-					diasdk_dir1="$vc_bin_dir/../../DIA SDK"
-					diasdk_dir2="$vc_bin_dir/../../../DIA SDK"
-					diasdk_dir3="$vc_bin_dir/../../../../../../../DIA SDK"
-					if test -f "$diasdk_dir1/include/dia2.h"; then :
+									diasdk_dir1="$vc_bin_dir/../../DIA SDK"
+									diasdk_dir2="$vc_bin_dir/../../../DIA SDK"
+									diasdk_dir3="$vc_bin_dir/../../../../../../../DIA SDK"
+									if test -f "$diasdk_dir1/include/dia2.h"; then :
   DIASDK_HOME="$(cygpath -a -w "$diasdk_dir1")"
 elif test -f "$diasdk_dir2/include/dia2.h"; then :
   DIASDK_HOME="$(cygpath -a -w "$diasdk_dir2")"
 elif test -f "$diasdk_dir3/include/dia2.h"; then :
   DIASDK_HOME="$(cygpath -a -w "$diasdk_dir3")"
+
+fi
+
 
 fi
 

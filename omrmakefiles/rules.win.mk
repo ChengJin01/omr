@@ -56,6 +56,11 @@ OMR_MK_WINVER=0x0501
 GLOBAL_CPPFLAGS+=-D_WIN32_IE=0x0500 -DWINVER=$(OMR_MK_WINVER)
 GLOBAL_CPPFLAGS+=-D_WIN32_WINNT=$(OMR_MK_WINVER)
 
+#disable warnings emited when compiling with Clang
+GLOBAL_CFLAGS+=/w
+GLOBAL_CXXFLAGS+=/w
+GLOBAL_CPPFLAGS+=/w
+
 # Specify precompiled header memory allocation limit
 # -Zm400 max memory is 400% the default maxiumum (~300 mb)
 GLOBAL_CFLAGS+=-Zm400
@@ -95,8 +100,13 @@ ifeq ($(OMR_DEBUG),1)
     # /Zi add debug symbols
     GLOBAL_LDFLAGS+=/debug
     GLOBAL_ASFLAGS+=/Zi /Zd
+ifeq (clang-cl,$(OMR_TOOLCHAIN))
+    GLOBAL_CFLAGS+=/Z7
+    GLOBAL_CXXFLAGS+=/Z7
+else
     GLOBAL_CFLAGS+=/Zi
     GLOBAL_CXXFLAGS+=/Zi
+endif
 endif
 
 ifneq (,$(findstring archive,$(ARTIFACT_TYPE)))

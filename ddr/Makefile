@@ -28,7 +28,7 @@ OMR_TOOLCHAIN ?= gcc
 
 ifneq (,$(filter gcc xlc,$(OMR_TOOLCHAIN)))
   DEBUG_FORMAT = dwo
-else ifeq (msvc,$(OMR_TOOLCHAIN))
+else ifneq (, $(filter msvc clang-cl,$(OMR_TOOLCHAIN)))
   DEBUG_FORMAT = pdb
 else
   $(error DEBUG_FORMAT is undefined)

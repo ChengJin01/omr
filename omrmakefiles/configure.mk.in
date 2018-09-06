@@ -226,7 +226,8 @@ ifeq (linux,$(OMR_HOST_OS))
     OMR_GTEST_CXXFLAGS += -fexceptions
   endif
 endif
-ifeq (msvc,$(OMR_TOOLCHAIN))
+
+ifneq (, $(filter msvc clang-cl,$(OMR_TOOLCHAIN)))
   OMR_GTEST_CXXFLAGS += /EHsc
 endif
 

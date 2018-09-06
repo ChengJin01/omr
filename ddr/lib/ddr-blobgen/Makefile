@@ -33,7 +33,7 @@ ifeq (gcc,$(OMR_TOOLCHAIN))
   MODULE_CXXFLAGS += -frtti -D__STDC_LIMIT_MACROS -std=c++0x
 endif
 
-ifeq (msvc,$(OMR_TOOLCHAIN))
+ifneq (, $(filter msvc clang-cl,$(OMR_TOOLCHAIN)))
   MODULE_CXXFLAGS += /EHsc
 endif
 
