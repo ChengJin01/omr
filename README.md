@@ -65,6 +65,8 @@ Build Status
 | AIX Power 64-bit | [![Build-aix_ppc-64 Status](https://ci.eclipse.org/omr/job/Build-aix_ppc-64/badge/icon)](https://ci.eclipse.org/omr/job/Build-aix_ppc-64/) |
 | Linux Z (s390x) 64-bit | [![Build-linux_390-64 Status](https://ci.eclipse.org/omr/job/Build-linux_390-64/badge/icon)](https://ci.eclipse.org/omr/job/Build-linux_390-64/) |
 | z/OS (s390x) 64-bit | [![Build-zOS_390-64 Status](https://ci.eclipse.org/omr/job/Build-zOS_390-64/badge/icon)](https://ci.eclipse.org/omr/job/Build-zOS_390-64/) |
+| **Linux RISCV 64-bit** | [![Linux RISCV-64 Status](https://ci.eclipse.org/omr/job/Build-linux_riscv64/badge/icon)](https://ci.eclipse.org/omr/job/Build-linux_riscv64/) |
+| **Linux RISCV 64-bit Compressed Pointers** | [![Build Status](https://ci.eclipse.org/omr/job/Build-linux_riscv64_cmprssptrs/badge/icon)](https://ci.eclipse.org/omr/job/Build-linux_riscv64_cmprssptrs/) |
 
 What's the goal?
 ================

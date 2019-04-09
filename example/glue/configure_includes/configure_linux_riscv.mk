@@ -24,6 +24,7 @@ include $(CONFIG_INCL_DIR)/configure_common.mk
 RISCV_CROSSTOOLS_PREFIX=riscv64-unknown-linux-gnu
 
 ifneq (,$(findstring _riscv64, $(SPEC)))
+<<<<<<< Upstream, based on upstream/master
 	RISCV_TARGET=riscv64-unknown-linux-gnu
 else
 	RISCV_TARGET=riscv32-unknown-linux-gnu
@@ -90,6 +91,74 @@ else
 	CC=gcc
 	CXX=c++
 	OBJCOPY=objcopy
+=======
+    RISCV_TARGET=riscv64-unknown-linux-gnu
+else
+    RISCV_TARGET=riscv32-unknown-linux-gnu
+endif
+
+CONFIGURE_ARGS += \
+    --host=$(RISCV_TARGET) \
+    --target=$(RISCV_TARGET)
+
+ifneq (,$(findstring _cross, $(SPEC)))
+CONFIGURE_ARGS += \
+    --build=x86_64-pc-linux-gnu \
+    'OMR_CROSS_CONFIGURE=yes'
+else
+CONFIGURE_ARGS += \
+    --build=riscv64-pc-linux-gnu
+endif
+
+CONFIGURE_ARGS += \
+    --enable-OMR_EXAMPLE \
+    --enable-OMR_GC \
+    --enable-OMR_PORT \
+    --enable-OMR_TEST_COMPILER \
+    --enable-OMR_THREAD \
+    --enable-OMR_OMRSIG \
+    --enable-OMR_THR_THREE_TIER_LOCKING \
+    --enable-OMR_THR_YIELD_ALG \
+    --enable-OMR_THR_SPIN_WAKE_CONTROL \
+    --enable-OMRTHREAD_LIB_UNIX \
+    --enable-OMR_ARCH_RISCV \
+    --enable-OMR_ENV_LITTLE_ENDIAN \
+    --enable-OMR_GC_TLH_PREFETCH_FTA \
+    --enable-OMR_PORT_CAN_RESERVE_SPECIFIC_ADDRESS \
+    --enable-OMR_THR_FORK_SUPPORT \
+    --enable-OMR_GC_ARRAYLETS
+
+ifneq (,$(findstring _riscv64, $(SPEC)))
+  CONFIGURE_ARGS += \
+    --enable-OMR_ENV_DATA64 \
+    'OMR_TARGET_DATASIZE=64'
+else
+  CONFIGURE_ARGS += \
+    'OMR_TARGET_DATASIZE=32'
+endif
+
+ifneq (,$(findstring _cmprssptrs, $(SPEC)))
+  CONFIGURE_ARGS += \
+    --enable-OMR_GC_COMPRESSED_POINTERS \
+    --enable-OMR_INTERP_COMPRESSED_OBJECT_HEADER \
+    --enable-OMR_INTERP_SMALL_MONITOR_SLOT
+endif
+
+CONFIGURE_ARGS += libprefix=lib exeext= solibext=.so arlibext=.a objext=.o
+
+ifneq (,$(findstring _cross, $(SPEC)))
+    AR=$(RISCV_CROSSTOOLS_PREFIX)-ar
+    AS=$(RISCV_CROSSTOOLS_PREFIX)-as
+    CC=$(RISCV_CROSSTOOLS_PREFIX)-gcc $(SYSROOT_CFLAGS)
+    CXX=$(RISCV_CROSSTOOLS_PREFIX)-c++ $(SYSROOT_CFLAGS)
+    OBJCOPY=$(RISCV_CROSSTOOLS_PREFIX)-objcopy
+else
+    AR=ar
+    AS=as
+    CC=gcc
+    CXX=c++
+    OBJCOPY=objcopy
+>>>>>>> 5898a15 Enable RISC-V 64bit in OMR
 endif
 
 CONFIGURE_ARGS += 'AR=$(AR)'
