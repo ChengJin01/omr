@@ -106,6 +106,7 @@ following tags:
 | osx      | 64-bit macOS |
 | arm      | 32-bit AArch32 (cross-compile build only) |
 | aarch64  | 64-bit AArch64 (cross-compile build only) |
+| riscv64  | 64-bit RISCV   (cross-compile build & native-compile build) |
 
    For example, to launch a pull request build on all platforms:
    ```
